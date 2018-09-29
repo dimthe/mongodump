@@ -1,0 +1,23 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: mongodump
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mongodump
+    spec:
+      containers:
+      - image: "dimtheo/mongodump"
+        name: mongodump
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /data/mongodump
+          name: mongodump
+      volumes:
+      - name: mongodump
+        persistentVolumeClaim:
+          claimName: mongodump
+      restartPolicy: Always
